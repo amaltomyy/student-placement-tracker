@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Opportunities | Student Placement Tracker</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #F8FAFC;
+            color: #334155;
+            margin: 0;
+        }
+
+        header {
+            background: #142B4A;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        nav a {
+            color: #142B4A;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #142B4A;
+        }
+
+        .job-card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 20px;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+        }
+
+        .company {
+            color: #0D9488;
+            font-weight: bold;
+        }
+
+        .details {
+            line-height: 1.7;
+        }
+
+        button {
+            background: #0D9488;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0F766E;
+        }
+
+        .empty-message {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .message {
+            background: #D1FAE5;
+            color: #065F46;
+            padding: 15px;
+            margin: 15px 0 20px;
+            border: 1px solid #6EE7B7;
+            border-radius: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748B;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Student Placement Tracker</h1>
+        <p>Find your next opportunity</p>
+    </header>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/jobs/">Opportunities</a>
+        <a href="/profile/">My Profile</a>
+        <a href="/admin/">Admin</a>
+    </nav>
+
+    <main>
+        <h2>Available Job Opportunities</h2>
+        <p>Explore available internships and jobs.</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% for job in jobs %}
+
+            <div class="job-card">
+
+                <h2>{{ job.title }}</h2>
+
+                <p class="company">{{ job.company }}</p>
+
+                <div class="details">
+                    <p><strong>Location:</strong> {{ job.location }}</p>
+
+                    <p>
+                        <strong>Description:</strong>
+                        {{ job.description }}
+                    </p>
+
+                    <p>
+                        <strong>Required Skills:</strong>
+                        {{ job.skills|default:"Not specified" }}
+                    </p>
+
+                    <p>
+                        <strong>Application Deadline:</strong>
+                        {{ job.deadline }}
+                    </p>
+                </div>
+
+                <form action="{% url 'apply_job' job.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Apply Now</button>
+                </form>
+
+            </div>
+
+        {% empty %}
+
+            <div class="empty-message">
+                <p>No jobs are available right now. Please check again later.</p>
+            </div>
+
+        {% endfor %}
+
+    </main>
+
+    <footer>
+        Student Placement Tracker | Student Project
+    </footer>
+
+</body>
+</html>

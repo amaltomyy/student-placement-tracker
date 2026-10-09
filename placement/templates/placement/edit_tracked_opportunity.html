@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Application | Student Placement Tracker</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #243247;
+        }
+
+        header {
+            background: #142b4a;
+            color: white;
+            padding: 20px 7%;
+        }
+
+        header h2 {
+            margin-top: 0;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            margin-right: 18px;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            width: 90%;
+            max-width: 700px;
+            margin: 35px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #0000000a;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 100px;
+        }
+
+        button {
+            background: #0d9488;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #0f766e;
+        }
+
+        .back {
+            display: inline-block;
+            margin-left: 12px;
+            color: #334155;
+        }
+
+        .error {
+            color: #b91c1c;
+        }
+
+        @media (max-width: 600px) {
+            main {
+                width: 92%;
+                margin-top: 20px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>Student Placement Tracker</h2>
+    <a href="{% url 'student_tracker' %}">Back to My Tracker</a>
+    <a href="{% url 'logout' %}">Logout</a>
+</header>
+
+<main>
+    <section class="card">
+        <h1>Edit Application</h1>
+
+        <p>
+            Update your progress for
+            <strong>{{ opportunity.company }}</strong>
+            — {{ opportunity.job_title }}.
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="field">
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+
+                    {{ field }}
+
+                    {% for error in field.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            {% if form.non_field_errors %}
+                <div class="error">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <button type="submit">Save Changes</button>
+
+            <a class="back" href="{% url 'student_tracker' %}">
+                Cancel
+            </a>
+        </form>
+    </section>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Placement Tracker</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #243247;
+        }
+
+        header {
+            background: #142b4a;
+            color: white;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #0000000a;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        button {
+            background: #0d9488;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #0f766e;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 14px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+
+        th {
+            background: #f8fafc;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #e0f2fe;
+            color: #075985;
+            font-size: 13px;
+        }
+
+        .edit-link {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #075985;
+            padding: 7px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .edit-link:hover {
+            background: #bae6fd;
+        }
+
+        .message {
+            background: #dcfce7;
+            color: #166534;
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 15px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+        }
+
+        @media (max-width: 650px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            .container {
+                width: 92%;
+                margin-top: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>Student Placement Tracker</h2>
+
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'job_list' %}">Opportunities</a>
+        <a href="{% url 'profile' %}">My Profile</a>
+        <a href="{% url 'my_applications' %}">My Applications</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="welcome">
+        <h1>My Job & Internship Tracker</h1>
+        <p>
+            Welcome, {{ request.user.username }}!
+            Keep your job applications and internship progress in one place.
+        </p>
+    </section>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <section class="card">
+        <h2>Add a Job or Internship</h2>
+        <p>Record an opportunity you have applied for.</p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-grid">
+                {% for field in form %}
+                    <div class="field {% if field.name == 'notes' %}full-width{% endif %}">
+                        <label for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                        </label>
+
+                        {{ field }}
+
+                        {% for error in field.errors %}
+                            <small style="color: #b91c1c;">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if form.non_field_errors %}
+                <p style="color: #b91c1c;">
+                    {{ form.non_field_errors }}
+                </p>
+            {% endif %}
+
+            <br>
+            <button type="submit">Save Opportunity</button>
+        </form>
+    </section>
+
+    <section class="card">
+        <h2>My Applications</h2>
+
+        {% if opportunities %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Position</th>
+                            <th>Type</th>
+                            <th>Applied Date</th>
+                            <th>Status</th>
+                            <th>Interview Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for opportunity in opportunities %}
+                            <tr>
+                                <td>{{ opportunity.company }}</td>
+                                <td>{{ opportunity.job_title }}</td>
+                                <td>{{ opportunity.opportunity_type }}</td>
+                                <td>{{ opportunity.applied_date|date:"d M Y" }}</td>
+
+                                <td>
+                                    <span class="status">
+                                        {{ opportunity.status }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    {% if opportunity.interview_date %}
+                                        {{ opportunity.interview_date|date:"d M Y" }}
+                                    {% else %}
+                                        Not scheduled
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    <a
+                                        class="edit-link"
+                                        href="{% url 'edit_tracked_opportunity' opportunity.id %}"
+                                    >
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
+
+                            {% if opportunity.notes %}
+                                <tr>
+                                    <td colspan="7">
+                                        <strong>Notes:</strong>
+                                        {{ opportunity.notes }}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty">
+                <h3>No opportunities added yet</h3>
+                <p>Add your first job or internship using the form above.</p>
+            </div>
+        {% endif %}
+    </section>
+
+</main>
+
+<footer>
+    Student Placement Tracker · Manage your career opportunities
+</footer>
+
+</body>
+</html>
