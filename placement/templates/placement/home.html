@@ -2,171 +2,159 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Student Placement Tracker</title>
 
+    <!-- Bootstrap 5 CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --navy: #14213d;
+            --blue: #2563eb;
+            --light-bg: #f4f7fb;
         }
 
         body {
             font-family: Arial, sans-serif;
-            background: #f4f7fb;
+            background: var(--light-bg);
             color: #1e293b;
             line-height: 1.6;
         }
 
-        header {
-            background: #14213d;
-            color: white;
-            padding: 18px 7%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
+        .navbar-custom {
+            background-color: var(--navy);
         }
 
-        header h2 {
-            font-size: 22px;
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 0.2px;
         }
 
-        nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 18px;
-            align-items: center;
+        .navbar-custom .nav-link {
+            color: #ffffff;
+            transition: color 0.2s ease;
         }
 
-        nav a,
-        nav button {
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        nav a:hover {
+        .navbar-custom .nav-link:hover {
             color: #93c5fd;
         }
 
+        .navbar-custom .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .navbar-custom .navbar-toggler-icon {
+            filter: invert(1);
+        }
+
         .hero {
-            text-align: center;
-            padding: 75px 20px;
             background: linear-gradient(135deg, #e0eaff, #f4f7fb);
+            padding: 80px 20px;
         }
 
         .hero h1 {
-            font-size: 38px;
-            margin-bottom: 18px;
-            color: #14213d;
+            color: var(--navy);
+            font-weight: 700;
+            line-height: 1.2;
         }
 
         .hero p {
-            max-width: 650px;
-            margin: 0 auto 28px;
+            max-width: 680px;
             color: #475569;
-            font-size: 17px;
+            font-size: 1.1rem;
         }
 
-        .button {
-            display: inline-block;
-            padding: 12px 22px;
-            margin: 6px;
-            background: #2563eb;
-            color: white;
-            text-decoration: none;
-            border-radius: 7px;
-            font-weight: bold;
+        .btn-primary-custom {
+            background-color: var(--blue);
+            border-color: var(--blue);
+            color: #ffffff;
         }
 
-        .button:hover {
-            background: #1d4ed8;
+        .btn-primary-custom:hover {
+            background-color: #1d4ed8;
+            border-color: #1d4ed8;
+            color: #ffffff;
         }
 
-        .button.secondary {
-            background: #14213d;
+        .btn-navy {
+            background-color: var(--navy);
+            border-color: var(--navy);
+            color: #ffffff;
         }
 
-        .button.secondary:hover {
-            background: #263b60;
+        .btn-navy:hover {
+            background-color: #263b60;
+            border-color: #263b60;
+            color: #ffffff;
         }
 
-        .features {
-            max-width: 1100px;
-            margin: 45px auto;
-            padding: 0 20px;
+        .section-title {
+            color: var(--navy);
+            font-weight: 700;
         }
 
-        .features h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #14213d;
+        .feature-card {
+            background: #ffffff;
+            border: 1px solid #e8edf5;
+            border-radius: 14px;
+            transition: transform 0.2s ease,
+                        box-shadow 0.2s ease;
         }
 
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(
-                auto-fit, minmax(220px, 1fr)
-            );
-            gap: 22px;
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(20, 33, 61, 0.10);
         }
 
-        .card {
-            background: white;
-            padding: 25px;
+        .feature-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            background: #e0eaff;
+            color: var(--blue);
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            font-size: 1.5rem;
+            font-weight: 700;
         }
 
-        .card h3 {
-            margin-bottom: 10px;
-            color: #1d4ed8;
+        .feature-card h3 {
+            color: var(--navy);
+            font-weight: 700;
         }
 
-        .card p {
+        .feature-card p {
             color: #64748b;
-            margin-bottom: 15px;
         }
 
-        .card a {
-            color: #2563eb;
+        .feature-link {
+            color: var(--blue);
+            font-weight: 600;
             text-decoration: none;
-            font-weight: bold;
         }
 
-        .card a:hover {
+        .feature-link:hover {
             text-decoration: underline;
         }
 
-        .welcome {
-            text-align: center;
-            margin: 25px 15px;
-            color: #334155;
-        }
-
-        footer {
-            text-align: center;
-            padding: 22px;
-            background: #14213d;
+        .site-footer {
+            background: var(--navy);
             color: #cbd5e1;
-            margin-top: 45px;
         }
 
-        @media (max-width: 600px) {
-            header {
-                justify-content: center;
-                text-align: center;
-            }
-
-            nav {
-                justify-content: center;
+        @media (max-width: 576px) {
+            .hero {
+                padding: 55px 18px;
             }
 
             .hero h1 {
-                font-size: 29px;
+                font-size: 2rem;
             }
         }
     </style>
@@ -174,97 +162,215 @@
 
 <body>
 
-<header>
-    <h2>Student Placement Tracker</h2>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            Student Placement Tracker
+        </a>
 
-    <nav>
-        <a href="{% url 'home' %}">Home</a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">
+                        Home
+                    </a>
+                </li>
+
+                {% if user.is_authenticated %}
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{% url 'student_tracker' %}">
+                            My Job Tracker
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{% url 'profile' %}">
+                            My Profile
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <form action="{% url 'logout' %}"
+                              method="post"
+                              class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    class="btn btn-outline-light btn-sm ms-lg-2">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+
+                {% else %}
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{% url 'register' %}">
+                            Register
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="btn btn-light btn-sm text-primary fw-semibold ms-lg-2"
+                           href="{% url 'login' %}">
+                            Login
+                        </a>
+                    </li>
+
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero text-center">
+    <div class="container">
+
+        <span class="badge rounded-pill text-bg-primary mb-3 px-3 py-2">
+            Your Placement Journey, Organized
+        </span>
+
+        <h1 class="display-4 mb-4">
+            Manage Your Placement Journey
+        </h1>
+
+        <p class="mx-auto mb-4">
+            Keep track of your job applications and internships
+            in one place. Record application dates, monitor your
+            progress, and stay prepared for upcoming interviews.
+        </p>
 
         {% if user.is_authenticated %}
-            <a href="{% url 'student_tracker' %}">
-                My Job Tracker
+
+            <h4 class="mb-4">
+                Welcome, {{ user.username }}!
+            </h4>
+
+            <a href="{% url 'student_tracker' %}"
+               class="btn btn-primary-custom btn-lg px-4">
+                Open My Job Tracker
             </a>
 
-            <a href="{% url 'profile' %}">My Profile</a>
-
-            <form action="{% url 'logout' %}" method="post"
-                  style="display:inline;">
-                {% csrf_token %}
-                <button type="submit"
-                    style="background:none; border:none;
-                    cursor:pointer;">
-                    Logout
-                </button>
-            </form>
         {% else %}
-            <a href="{% url 'register' %}">Register</a>
-            <a href="{% url 'login' %}">Login</a>
+
+            <a href="{% url 'register' %}"
+               class="btn btn-primary-custom btn-lg px-4 me-2 mb-2">
+                Get Started
+            </a>
+
+            <a href="{% url 'login' %}"
+               class="btn btn-navy btn-lg px-4 mb-2">
+                Login
+            </a>
+
         {% endif %}
-    </nav>
-</header>
-
-<section class="hero">
-    <h1>Manage Your Placement Journey</h1>
-
-    <p>
-        Keep track of your job applications and internships
-        in one place. Record application dates, monitor your
-        progress, and stay prepared for upcoming interviews.
-    </p>
-
-    {% if user.is_authenticated %}
-        <h3 class="welcome">
-            Welcome, {{ user.username }}!
-        </h3>
-
-        <a href="{% url 'student_tracker' %}" class="button">
-            Track My Jobs & Internships
-        </a>
-    {% else %}
-        <a href="{% url 'register' %}" class="button">
-            Get Started
-        </a>
-
-        <a href="{% url 'login' %}" class="button secondary">
-            Login
-        </a>
-    {% endif %}
-</section>
-
-<section class="features">
-    <h2>What You Can Do</h2>
-
-    <div class="feature-grid">
-
-        <div class="card">
-            <h3>My Job Tracker</h3>
-            <p>
-                Add jobs or internships you applied for, even if
-                they are not listed on this website. Update their
-                status and record interview dates.
-            </p>
-            <a href="{% url 'student_tracker' %}">
-                Track My Applications →
-            </a>
-        </div>
-
-        <div class="card">
-            <h3>My Profile</h3>
-            <p>
-                Maintain your student profile, including your
-                course, phone number, and skills.
-            </p>
-            <a href="{% url 'profile' %}">
-                Manage My Profile →
-            </a>
-        </div>
 
     </div>
 </section>
 
-<footer>
-    <p>Student Placement Tracker | Built with Python and Django</p>
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2 class="section-title">What You Can Do</h2>
+            <p class="text-secondary mb-0">
+                Everything you need to organize your applications.
+            </p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+
+            <!-- Job Tracker Card -->
+            <div class="col-12 col-md-6 col-lg-5">
+                <div class="feature-card h-100 p-4 p-lg-5">
+
+                    <div class="feature-icon mb-4">
+                        ✓
+                    </div>
+
+                    <h3 class="h4 mb-3">
+                        My Job Tracker
+                    </h3>
+
+                    <p class="mb-4">
+                        Add jobs or internships you have applied for.
+                        Update application statuses and record interview
+                        dates to keep your placement journey organized.
+                    </p>
+
+                    <a href="{% url 'student_tracker' %}"
+                       class="feature-link">
+                        Track My Applications →
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="col-12 col-md-6 col-lg-5">
+                <div class="feature-card h-100 p-4 p-lg-5">
+
+                    <div class="feature-icon mb-4">
+                        👤
+                    </div>
+
+                    <h3 class="h4 mb-3">
+                        My Profile
+                    </h3>
+
+                    <p class="mb-4">
+                        Maintain your student information, including
+                        your course, phone number, and skills, in one place.
+                    </p>
+
+                    <a href="{% url 'profile' %}"
+                       class="feature-link">
+                        Manage My Profile →
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer py-4 mt-4">
+    <div class="container text-center">
+        <p class="mb-1">
+            Student Placement Tracker
+        </p>
+        <small>
+            Built with Python, Django, HTML, CSS and Bootstrap 5
+        </small>
+    </div>
 </footer>
+
+<!-- Bootstrap JavaScript for the responsive navbar -->
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
 
 </body>
 </html>
